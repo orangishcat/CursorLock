@@ -1,0 +1,17 @@
+{
+	"geode": "4.10.0",
+	"gd": {
+		"win": "2.2074",
+		"android": "2.2074",
+		"mac": "2.2074",
+		"ios": "2.2074"
+	},
+	"id": "orangishcat.cursor-lock",
+	"name": "Cursor Lock",
+	"version": "v0.1.0",
+	"developer": "orangishcat",
+	"description": "Locks your cursor to an area around the center of your screen when playing.",
+	"dependencies": {
+		"geode.node-ids": ">=v1.20.0"
+	}
+}
