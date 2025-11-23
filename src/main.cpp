@@ -164,7 +164,7 @@ class $modify(MyMenuLayer, MenuLayer) {
 };
 
 class $modify(MyPlayLayer, PlayLayer) {
-	bool init(GJGameLevel* level, bool useReplay, bool dontCreateObjects) override {
+	bool init(GJGameLevel* level, bool useReplay, bool dontCreateObjects) {
 		if (!PlayLayer::init(level, useReplay, dontCreateObjects)) {
 			return false;
 		}
@@ -184,7 +184,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 };
 
 class $modify(MyPauseLayer, PauseLayer) {
-	void onResume(CCObject* sender) override {
+	void onResume(CCObject* sender) {
 		if (auto manager = CursorLockManager::get()) {
 			manager->activate();
 		}
