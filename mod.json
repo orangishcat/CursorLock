@@ -13,5 +13,35 @@
 	"description": "Locks your cursor to an area around the center of your screen when playing.",
 	"dependencies": {
 		"geode.node-ids": ">=v1.20.0"
+	},
+	"settings": {
+		"left": {
+			"name": "Top-left X (%)",
+			"type": "float",
+			"default": 25,
+			"min": 0,
+			"max": 100
+		},
+		"top": {
+			"name": "Top-left Y (%)",
+			"type": "float",
+			"default": 25,
+			"min": 0,
+			"max": 100
+		},
+		"right": {
+			"name": "Bottom-right X (%)",
+			"type": "float",
+			"default": 75,
+			"min": 0,
+			"max": 100
+		},
+		"bottom": {
+			"name": "Bottom-right Y (%)",
+			"type": "float",
+			"default": 75,
+			"min": 0,
+			"max": 100
+		}
 	}
 }
