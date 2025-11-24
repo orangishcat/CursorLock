@@ -1,7 +1,6 @@
 #include <Geode/Geode.hpp>
 #include <Geode/modify/MenuLayer.hpp>
 #include <Geode/modify/PlayLayer.hpp>
-#include <Geode/modify/PauseLayer.hpp>
 #include <Geode/loader/Setting.hpp>
 
 #include <memory>
@@ -12,6 +11,11 @@ using namespace geode::prelude;
 using namespace cursorlock;
 
 namespace {
+bool is_playing() {
+	auto pl = PlayLayer::get();
+	return pl && pl->isGameplayActive();
+}
+
 PercentBounds loadBoundsFromSettings() {
 	auto mod = Mod::get();
 	PercentBounds b{};
@@ -58,8 +62,16 @@ public:
 	}
 
 	void update(float) override {
+		const bool isPlaying = is_playing();
+
+		if (isPlaying && !m_enabled) {
+			activate();
+		} else if (!isPlaying && m_enabled) {
+			deactivate();
+		}
+
 		if (m_enabled && m_api) {
-			applyToAPI(); // re-apply in case the platform clears the clip when pausing/resuming
+			applyToAPI(); // re-apply just in case
 			m_api->tick();
 		}
 	}
@@ -160,42 +172,6 @@ class $modify(MyMenuLayer, MenuLayer) {
 		// Ensure manager exists so bounds are loaded.
 		CursorLockManager::get();
 		return true;
-	}
-};
-
-class $modify(MyPlayLayer, PlayLayer) {
-	bool init(GJGameLevel* level, bool useReplay, bool dontCreateObjects) {
-		if (!PlayLayer::init(level, useReplay, dontCreateObjects)) {
-			return false;
-		}
-
-		if (auto manager = CursorLockManager::get()) {
-			manager->activate();
-		}
-		return true;
-	}
-
-	void onExit() override {
-		if (auto manager = CursorLockManager::get()) {
-			manager->deactivate();
-		}
-		PlayLayer::onExit();
-	}
-
-	void levelComplete() {
-		if (auto manager = CursorLockManager::get()) {
-			manager->deactivate();
-		}
-		PlayLayer::levelComplete();
-	}
-};
-
-class $modify(MyPauseLayer, PauseLayer) {
-	void onResume(CCObject* sender) {
-		if (auto manager = CursorLockManager::get()) {
-			manager->activate();
-		}
-		PauseLayer::onResume(sender);
 	}
 };
 
