@@ -23,7 +23,7 @@ PercentBounds loadBoundsFromSettings() {
 }
 
 PercentBounds defaultBounds() {
-	return PercentBounds{25.0, 25.0, 75.0, 75.0};
+	return PercentBounds{10.0, 10.0, 90.0, 90.0};
 }
 
 bool isValidBounds(PercentBounds const& b) {
@@ -180,6 +180,13 @@ class $modify(MyPlayLayer, PlayLayer) {
 			manager->deactivate();
 		}
 		PlayLayer::onExit();
+	}
+
+	void levelComplete() {
+		if (auto manager = CursorLockManager::get()) {
+			manager->deactivate();
+		}
+		PlayLayer::levelComplete();
 	}
 };
 
